@@ -35,6 +35,11 @@ function M.apply()
 
   tetris.apply()
 
+  local transparency_ok, transparency = pcall(require, "tetravim.util.transparency")
+  if transparency_ok then
+    transparency.apply()
+  end
+
   local colors_ok, theme_colors = pcall(require, "tetravim.util.theme_colors")
   if colors_ok then
     -- Hand the freshly-applied highlight table to the derived-colour cache

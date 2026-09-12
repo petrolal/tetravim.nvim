@@ -47,6 +47,41 @@ fi
 pass "Neovim: $(nvim --version | head -n 1)"
 
 # ============================================================================
+# 0b. Other required/recommended system tools — checked up front so a missing
+#     one is reported before the (slower) plugin sync + provisioning steps,
+#     not discovered later in :checkhealth. Mirrors health/platform.lua's
+#     "TetraVim System Dependencies" section plus the JDK that jdtls/Metals
+#     need to actually launch. None of these are auto-installed here: the
+#     package name/version a user wants varies too much per distro.
+# ============================================================================
+section "Prerequisite tools"
+
+check_prereq() {
+	local bin="$1" required="$2" label="$3"
+	if command -v "$bin" >/dev/null 2>&1; then
+		pass "$bin ready ($label)"
+	elif [ "$required" = "required" ]; then
+		warn "'$bin' not found on \$PATH -- $label"
+	else
+		warn "'$bin' not found on \$PATH -- optional, $label"
+	fi
+}
+
+check_prereq git required "version control, used by lazy.nvim to fetch plugins"
+check_prereq rg required "ripgrep -- Telescope live-grep, snacks.picker (marked REQUIRED by :checkhealth)"
+check_prereq make optional "native build step for some Tree-sitter parsers / telescope-fzf-native"
+if command -v cc >/dev/null 2>&1 || command -v gcc >/dev/null 2>&1 || command -v clang >/dev/null 2>&1; then
+	pass "C compiler ready (Tree-sitter parser / telescope-fzf-native builds)"
+else
+	warn "no C compiler (cc/gcc/clang) found -- Tree-sitter parser and telescope-fzf-native builds will fail"
+fi
+if command -v java >/dev/null 2>&1; then
+	pass "java ready ($(java -version 2>&1 | head -n 1))"
+else
+	warn "'java' not found on \$PATH -- required to launch jdtls (Java) and Metals (Scala); install a JDK 21"
+fi
+
+# ============================================================================
 # 1. Cache cleanup — clear Neovim runtime and Tree-sitter caches
 # ============================================================================
 section "Cache cleanup"
@@ -80,7 +115,7 @@ else
 fi
 
 # ============================================================================
-# 2. Node.js provider & npm tools
+# 3. Node.js provider & npm tools
 #    - neovim npm package  -> vim.provider Node.js
 #    - prettier            -> conform.nvim formatter (web/yaml/json/md)
 # ============================================================================
@@ -109,7 +144,7 @@ else
 fi
 
 # ============================================================================
-# 3. Go tools
+# 4. Go tools
 #    - yamlfmt -> conform.nvim YAML formatter
 # ============================================================================
 section "Go tools"
@@ -132,7 +167,7 @@ else
 fi
 
 # ============================================================================
-# 4. Python provider
+# 5. Python provider
 #    - pynvim -> vim.provider Python
 # ============================================================================
 section "Python provider (pynvim)"
@@ -158,7 +193,7 @@ else
 fi
 
 # ============================================================================
-# 5. Tree-sitter parsers
+# 6. Tree-sitter parsers
 #    - regex -> required by noice.nvim cmdline highlighting + snacks.picker
 # ============================================================================
 section "Tree-sitter parsers"
@@ -199,7 +234,7 @@ else
 fi
 
 # ============================================================================
-# 6. PDF & LaTeX preview tools (snacks.nvim)
+# 7. PDF & LaTeX preview tools (snacks.nvim)
 #    - gs (ghostscript)    -> PDF rendering
 #    - tectonic / pdflatex -> LaTeX compilation
 # ============================================================================
@@ -274,7 +309,7 @@ else
 fi
 
 # ============================================================================
-# 7. gRPC tools
+# 8. gRPC tools
 # ============================================================================
 section "gRPC tools"
 if command -v grpcurl >/dev/null 2>&1; then
@@ -295,7 +330,7 @@ else
 fi
 
 # ============================================================================
-# 8. Security & vulnerability scanners
+# 9. Security & vulnerability scanners
 # ============================================================================
 section "Security scanners"
 if command -v osv-scanner >/dev/null 2>&1; then
@@ -318,7 +353,7 @@ else
 fi
 
 # ============================================================================
-# 9. Core CLI tools
+# 10. Core CLI tools
 #    - rg (ripgrep) -> project-wide search: safe-rename reference scan, Spring
 #                      Boot discovery, snacks.picker (:checkhealth marks it
 #                      REQUIRED)
@@ -352,7 +387,7 @@ for tool in rg jq curl unzip; do
 done
 
 # ============================================================================
-# 10. Scala lint & format tools (scalafmt / scalastyle)
+# 11. Scala lint & format tools (scalafmt / scalastyle)
 #     Not in the Mason registry -- installed via Coursier when available.
 #     Metals still provides semantic diagnostics without these; they add the
 #     <leader>xlF project formatting and optional style linting.
@@ -378,7 +413,7 @@ else
 fi
 
 # ============================================================================
-# 11. async-profiler (JVM sampling profiler)
+# 12. async-profiler (JVM sampling profiler)
 #     util/profiling.lua shells out to `asprof` / `profiler.sh`; without it the
 #     <leader>jps (start) / <leader>jpx (stop) / <leader>jpv (view) keymaps
 #     error with "async-profiler binary not found in $PATH".

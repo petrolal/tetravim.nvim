@@ -10,7 +10,7 @@ local M = {}
 
 local ui = require("tetravim.util.ui")
 
-M.enabled = false
+M.enabled = true
 
 -- Groups whose background is cleared. Foreground-only groups (syntax,
 -- diagnostics) are deliberately absent -- only surfaces go transparent.
