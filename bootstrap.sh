@@ -28,6 +28,31 @@ echo "   TetraVim Neovim: Full Bootstrap               "
 echo "=================================================="
 
 # ============================================================================
+# 0a. Canonical install location — the repo must live at ~/tetravim.nvim, with
+#     ~/.config/nvim symlinked to it. A clone anywhere else relocates itself
+#     here on first run so this is the only installation layout to support.
+# ============================================================================
+section "Canonical install location"
+
+TETRAVIM_HOME="$HOME/tetravim.nvim"
+TETRAVIM_HOME_REAL=""
+[ -e "$TETRAVIM_HOME" ] && TETRAVIM_HOME_REAL="$(cd -P "$TETRAVIM_HOME" && pwd)"
+
+if [ "$REPO_DIR" != "$TETRAVIM_HOME" ] && [ "$REPO_DIR" != "$TETRAVIM_HOME_REAL" ]; then
+	if [ -e "$TETRAVIM_HOME" ]; then
+		BACKUP="$TETRAVIM_HOME.backup.$(date +%s)"
+		warn "$TETRAVIM_HOME already exists (different repo) -- backing up -> $BACKUP"
+		mv "$TETRAVIM_HOME" "$BACKUP"
+	fi
+	warn "Repo is at $REPO_DIR -- relocating to canonical path $TETRAVIM_HOME"
+	mv "$REPO_DIR" "$TETRAVIM_HOME"
+	pass "Repo relocated: $TETRAVIM_HOME"
+	exec bash "$TETRAVIM_HOME/bootstrap.sh" "$@"
+fi
+REPO_DIR="$TETRAVIM_HOME"
+pass "Repo at canonical location: $REPO_DIR"
+
+# ============================================================================
 # 0. Neovim — hard requirement
 # ============================================================================
 section "Neovim"

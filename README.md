@@ -43,14 +43,16 @@ TetraVim is **pure native Neovim** — standard LSPs, Tree-sitter, Mason tools, 
 ## Installation
 
 ```bash
-git clone https://github.com/petrolal/tetravim.nvim.git ~/.config/nvim
-cd ~/.config/nvim
+git clone https://github.com/petrolal/tetravim.nvim.git ~/tetravim.nvim
+cd ~/tetravim.nvim
 ./bootstrap.sh
 ```
 
-`bootstrap.sh` is idempotent — safe to re-run after `git pull` to refresh
-plugins and tools. See [INSTALL.md](INSTALL.md) for exactly what it checks,
-what it installs, and troubleshooting/uninstall steps.
+TetraVim always lives at `~/tetravim.nvim`; `bootstrap.sh` symlinks
+`~/.config/nvim` to it (and relocates the repo there automatically if you
+cloned it somewhere else). It's idempotent — safe to re-run after `git pull`
+to refresh plugins and tools. See [INSTALL.md](INSTALL.md) for exactly what
+it checks, what it installs, and troubleshooting/uninstall steps.
 
 ---
 

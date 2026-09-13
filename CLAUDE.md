@@ -11,8 +11,8 @@ There is no companion backend/engine/bridge. Requires **Neovim ≥ 0.11** (uses
 `vim.lsp.config`/`vim.lsp.enable`, `vim.diagnostic.jump`, `winborder`; `init.lua`
 hard-fails on anything older).
 
-The repo is meant to be cloned to `~/.config/nvim` (or symlinked there for
-development).
+The repo is meant to live at `~/tetravim.nvim`, with `~/.config/nvim`
+symlinked to it (`bootstrap.sh` creates/enforces both).
 
 ## Commands
 

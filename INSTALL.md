@@ -3,14 +3,19 @@
 ## Quick Start
 
 ```bash
-git clone https://github.com/petrolal/tetravim.nvim.git ~/.config/nvim
-cd ~/.config/nvim
+git clone https://github.com/petrolal/tetravim.nvim.git ~/tetravim.nvim
+cd ~/tetravim.nvim
 bash bootstrap.sh
 nvim
 ```
 
-That's it — plain `nvim` now launches TetraVim. `bootstrap.sh` is idempotent;
-re-run it any time to refresh plugins/tools (e.g. after `git pull`).
+That's it — plain `nvim` now launches TetraVim. TetraVim always lives at
+`~/tetravim.nvim`; `bootstrap.sh` symlinks `~/.config/nvim` to it. If you
+clone (or `bash bootstrap.sh`) from anywhere else, the script moves the repo
+to `~/tetravim.nvim` on first run and re-execs itself from there — so
+`~/tetravim.nvim` is always the canonical, only supported install path.
+`bootstrap.sh` is idempotent; re-run it any time to refresh plugins/tools
+(e.g. after `git pull`).
 
 ---
 
@@ -38,10 +43,14 @@ fix hints, so you don't need to check by hand — just read its output.
 
 Each numbered section is independent and safe to re-run:
 
+0a. Guarantees the repo lives at `~/tetravim.nvim` — if `bootstrap.sh` is run
+    from anywhere else, it moves the repo there (backing up any existing
+    `~/tetravim.nvim` as `tetravim.nvim.backup.<timestamp>`) and re-execs
+    itself from the new location.
 0. Verifies Neovim exists and is `>= 0.11`; checks the prerequisites above.
 1. Clears the Neovim and Tree-sitter caches (avoids stale-lockfile issues).
-2. Symlinks this repo to `~/.config/nvim` (backing up any existing real
-   directory as `nvim.backup.<timestamp>`), then runs the headless
+2. Symlinks `~/tetravim.nvim` to `~/.config/nvim` (backing up any existing
+   real directory as `nvim.backup.<timestamp>`), then runs the headless
    provisioning pipeline (`tetravim.core.setup.run()`): `lazy.nvim` plugin
    sync, Mason LSP/DAP/linter tools, JVM framework LSP jars, Tree-sitter
    parsers.
@@ -93,7 +102,8 @@ every dependency this doc lists and points at the exact fix.
 ## Uninstall
 
 ```bash
-rm -rf ~/.config/nvim
+rm ~/.config/nvim   # it's a symlink, not the real directory
+rm -rf ~/tetravim.nvim
 # restore a previous config if bootstrap.sh backed one up:
 mv ~/.config/nvim.backup.* ~/.config/nvim
 ```
