@@ -10,6 +10,19 @@
 
 set -euo pipefail
 
+cat << 'EOF'
+  ╭────────────────────────────────────────────────╮  
+  │                                                │  
+  │   ████████      ██                   ██ ██     │  
+  │      ██   ___  █████ _ __ ____  _  _ ██ ██     │  
+  │      ██  / -_)  ██  | '__/ _  || |/ /   ██ ██  │  
+  │      ██  \___|  \__ | |  \__,_| \__/ ██ ██     │  
+  │                                                │  
+  ╰────────────────────────────────────────────────╯  
+               JVM & CLOUD-NATIVE ECOSYSTEM
+
+EOF
+
 REPO_URL="https://github.com/petrolal/tetravim.nvim.git"
 TETRAVIM_HOME="$HOME/tetravim.nvim"
 
