@@ -2,6 +2,16 @@
 
 ## Quick Start
 
+One-shot, `sdkman`-style installer — clones the repo to `~/tetravim.nvim`
+(or pulls latest if already there) and runs `bootstrap.sh`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/petrolal/tetravim.nvim/main/install.sh | bash
+nvim
+```
+
+Or clone it yourself first:
+
 ```bash
 git clone https://github.com/petrolal/tetravim.nvim.git ~/tetravim.nvim
 cd ~/tetravim.nvim
@@ -15,7 +25,8 @@ clone (or `bash bootstrap.sh`) from anywhere else, the script moves the repo
 to `~/tetravim.nvim` on first run and re-execs itself from there — so
 `~/tetravim.nvim` is always the canonical, only supported install path.
 `bootstrap.sh` is idempotent; re-run it any time to refresh plugins/tools
-(e.g. after `git pull`).
+(e.g. after `git pull`), and re-running `install.sh` does the same (`git
+pull --ff-only` then `bootstrap.sh`).
 
 ---
 

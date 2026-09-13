@@ -41,13 +41,14 @@ jobs:
       - name: Shell syntax (bash -n)
         run: |
           bash -n bootstrap.sh
+          bash -n install.sh
 
       - name: shellcheck (advisory, non-blocking)
         continue-on-error: true
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq shellcheck
-          shellcheck -S warning bootstrap.sh || true
+          shellcheck -S warning bootstrap.sh install.sh || true
 
   # --------------------------------------------------------------------------
   # The plenary busted spec suite (lua/tetravim/tests/*_spec.lua). "stable" is
