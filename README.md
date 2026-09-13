@@ -2,7 +2,7 @@
 
 > Enterprise-ready Neovim distribution for modern JVM backend engineering (Java, Kotlin, Scala, Gradle) and Cloud Native development.
 
-Built entirely on the standard Neovim ecosystem (Lua, standard LSPs, Treesitter, DAP) to serve as a full, stable replacement for IntelliJ IDEA. It pairs seamlessly with [`tetravim.dotfiles`](https://github.com/petrolal/tetravim.dotfiles).
+Built entirely on the standard Neovim ecosystem (Lua, standard LSPs, Treesitter, DAP) to serve as a full, stable replacement for IntelliJ IDEA.
 
 ---
 
